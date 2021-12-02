@@ -10,8 +10,8 @@ fn main() {
 
 fn larger_than_prev(data: Vec<i32>) -> i32 {
     let mut count = 0;
-    let mut prev = 0;
-    for num in data.into_iter().skip(1) {
+    let mut prev = i32::MAX;
+    for num in data.into_iter(){
         if num.cmp(&prev) == cmp::Ordering::Greater {
             count += 1
         };
