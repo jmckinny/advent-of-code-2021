@@ -1,6 +1,7 @@
 use std::{
     fs::File,
-    io::{BufRead, BufReader}, panic,
+    io::{BufRead, BufReader},
+    panic,
 };
 
 use board::Board;
@@ -10,43 +11,41 @@ fn main() {
     let nums = read_nums("nums.csv");
     let mut boards = read_boards("boards.txt");
     println!("Part 1: {}", do_bingo(&mut boards, &nums));
-    for board in boards.iter_mut(){
+    for board in boards.iter_mut() {
         board.reset();
     }
     println!("Part 2: {}", lose_bingo(&mut boards, &nums));
 }
 
-fn lose_bingo(boards: &mut Vec<Board>, nums: &[i32]) -> i32{
+fn lose_bingo(boards: &mut Vec<Board>, nums: &[i32]) -> i32 {
     let mut active_boards = boards.len() as i32;
-    for num in nums{
-        for (index,board) in boards.iter_mut().enumerate(){
-            if board.get_score() != 0{
+    for num in nums {
+        for board in boards.iter_mut() {
+            if board.get_score() != 0 {
                 continue;
             }
             board.mark(*num);
-            if board.is_winner(){
+            if board.is_winner() {
                 board.calc_score(*num);
                 active_boards -= 1;
-                if active_boards == 0{
+                if active_boards == 0 {
                     return board.get_score();
                 }
             }
         }
-        
     }
     panic!("No Winner Found!!!")
 }
 
 fn do_bingo(boards: &mut Vec<Board>, nums: &[i32]) -> i32 {
     for num in nums {
-        for board in boards.iter_mut(){
+        for board in boards.iter_mut() {
             board.mark(*num);
-            if board.is_winner(){
+            if board.is_winner() {
                 board.calc_score(*num);
                 return board.get_score();
             }
         }
-
     }
     panic!("No Winner Found!!!")
 }
@@ -74,7 +73,7 @@ fn read_boards(filename: &'static str) -> Vec<board::Board> {
     let mut cur_nums: Vec<i32> = Vec::new();
     for line in reader.lines() {
         let unwraped_line = line.unwrap();
-        if unwraped_line == "" {
+        if unwraped_line.is_empty() {
             result.push(board::Board::new(&cur_nums));
             cur_nums.clear();
         } else {
