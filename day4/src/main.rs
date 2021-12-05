@@ -74,7 +74,7 @@ fn read_boards(filename: &'static str) -> Vec<board::Board> {
     let mut cur_nums: Vec<i32> = Vec::new();
     for line in reader.lines() {
         let unwraped_line = line.unwrap();
-        if unwraped_line.trim() == "" {
+        if unwraped_line == "" {
             result.push(board::Board::new(&cur_nums));
             cur_nums.clear();
         } else {
@@ -84,6 +84,7 @@ fn read_boards(filename: &'static str) -> Vec<board::Board> {
             }
         }
     }
+    result.push(board::Board::new(&cur_nums));
 
     result
 }

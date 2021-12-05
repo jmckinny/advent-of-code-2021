@@ -16,7 +16,7 @@ impl Board {
         let mut data: Vec<Vec<Square>> = Vec::new();
         for i in 0..5 {
             data.push(Vec::new());
-            for j in 0..5 {
+            for _ in 0..5 {
                 data[i].push(Square {
                     flag: false,
                     val: *iter.next().unwrap(),
@@ -35,32 +35,29 @@ impl Board {
                 }
             }
         }
-        self.score = result;
-        self.score *= num;
+        self.score = result * num;
     }
 
     pub fn is_winner(&self) -> bool{
-        fn row_win(row: &[Square]) -> bool{
-            let sum = row.iter()
-            .fold(0, |acc,x| if x.flag {1+acc} else {acc});
-            sum == 5
-        }
-
-        for (index,row) in self.data.iter().enumerate(){
-            if row_win(row){
+        //Check rows
+        for row in self.data.iter(){
+            if 5 == row.iter().fold(0, |acc,x| if x.flag {acc + 1} else {acc}){
                 return true;
-            }
-            let mut col_win = 0;
-            for col in 0..5{
+            } 
+        }
+        //Check cols
+        for col in 0..5{
+            let mut sum = 0;
+            for index in 0..5{
                 if self.data[index][col].flag{
-                    col_win += 1;
+                    sum += 1;
                 }
             }
-            if col_win == 5{
-                return  true;
+            if sum == 5{
+                return true;
             }
-
         }
+        
         false
     }
 
@@ -86,6 +83,18 @@ impl Board {
         }
         self.score = 0;
     }
+}
 
-    
+impl std::fmt::Display for Board{
+    fn fmt(&self, f:&mut std::fmt::Formatter<'_>) -> std::fmt::Result{
+        let mut formtted = String::from("");
+        for row in self.data.iter(){
+            for sqr in row{
+                formtted.push_str(format!(" ({}, {}) ", sqr.val, sqr.flag).as_str());
+            }
+            formtted.push_str("\n");
+            
+        }
+        write!(f,"{}", formtted)
+    }
 }
