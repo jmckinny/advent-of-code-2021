@@ -8,8 +8,8 @@ fn main() {
     println!("{:?}", part2(&mut data2));
 }
 
-fn part2(data: &mut Vec<Vec<u32>>) -> usize{
-    let mut i:usize = 1;
+fn part2(data: &mut Vec<Vec<u32>>) -> usize {
+    let mut i: usize = 1;
     loop {
         let mut step_flash = 0;
         inc_all(data);
@@ -21,18 +21,17 @@ fn part2(data: &mut Vec<Vec<u32>>) -> usize{
                 break;
             }
         }
-        if step_flash == 100{
+        if step_flash == 100 {
             return i;
         }
         clean(data);
-        i+=1;
+        i += 1;
     }
 }
 
 fn part1(data: &mut Vec<Vec<u32>>) -> i32 {
     let mut num_flashed = 0;
     for _ in 0..100 {
-        
         inc_all(data);
         let mut flashed = HashSet::new();
         loop {
@@ -59,28 +58,28 @@ fn clean(data: &mut Vec<Vec<u32>>) {
 
 fn flash(data: &mut Vec<Vec<u32>>, flashed: &mut HashSet<(i32, i32)>) -> i32 {
     let mut cur_flashed = 0;
-    for i in 0..10 as i32 {
-        for j in 0..10 as i32 {
+    for i in 0..10_i32 {
+        for j in 0..10_i32 {
             if data[i as usize][j as usize] > 9 && !flashed.contains(&(i, j)) {
                 cur_flashed += 1;
                 flashed.insert((i, j));
                 data[i as usize][j as usize] += 1;
-                if i - 1 >= 0 && j - 1 >= 0 {
+                if i > 0 && j > 0 {
                     data[(i - 1) as usize][(j - 1) as usize] += 1;
                 }
-                if i - 1 >= 0 && j + 1 < 10 {
+                if i > 0 && j + 1 < 10 {
                     data[(i - 1) as usize][(j + 1) as usize] += 1;
                 }
-                if i - 1 >= 0 && j >= 0 {
+                if i > 0 && j >= 0 {
                     data[(i - 1) as usize][(j) as usize] += 1;
                 }
-                if j - 1 >= 0 {
+                if j > 0 {
                     data[(i) as usize][(j - 1) as usize] += 1;
                 }
                 if j + 1 < 10 {
                     data[(i) as usize][(j + 1) as usize] += 1;
                 }
-                if i + 1 < 10 && j - 1 >= 0 {
+                if i + 1 < 10 && j > 0 {
                     data[(i + 1) as usize][(j - 1) as usize] += 1;
                 }
                 if i + 1 < 10 && j >= 0 {
