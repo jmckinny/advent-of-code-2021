@@ -16,7 +16,6 @@ fn calc_laternfish(fishes: &[i32], days: usize) -> i64 {
         let num_zero = states[0];
         states.rotate_left(1);
         states[6] += num_zero;
-        states[8] = num_zero;
     }
 
     states.iter().sum::<i64>()
