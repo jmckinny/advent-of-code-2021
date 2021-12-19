@@ -26,7 +26,7 @@ fn calc_fuel_2(data: &[i32], target: i32) -> i32 {
     let mut fuel = 0;
     for num in data {
         let dif = (*num - target).abs();
-        fuel += (dif * (dif + 1)) / 2; //Shoutout to guass
+        fuel += (dif * (dif + 1)) / 2; //Shoutout to gauss
     }
     fuel
 }
